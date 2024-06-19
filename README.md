@@ -1,2 +1,1 @@
-# Project_2
-Crowdfunding_ETL
+# Crowdfunding_ETL
