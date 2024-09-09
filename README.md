@@ -71,6 +71,7 @@ All transformed datasets were exported as CSV files for easy accessibility and f
 
 * **Resources**: Contains all data files.
 * **ETL**: Contains main lines of code.
+* **Crowndfunding_DB**: Contains tables schemas of the database, and ERD.
 * **README.md**: Overview of the repository.
 * **LICENSE**: License of the repository
 
