@@ -1,83 +1,106 @@
-# Project 2: Crowdfunding_ETL
+# Crowdfunding ETL Process
 
-Group 4: Alvin, Kristina, Mason, Lisa and Frank
+## Project Overview
 
-## Introduction
+The project aims to extract, transform, and load (ETL) data from a crowdfunding campaign dataset and contacts dataset. The project demonstrates how to clean and organize data, split category and subcategory fields, generate unique identifiers, and merge datasets for further analysis.
 
-For the ETL mini project, we will work in a group of 5 to practise building an ETL pipeline using Python, Pandas, and either Python dictionary methods or regular expressions to extract and transform the data. After transforming the data, we create four CSV files and use the CSV file data to create an ERD and a table schema. Finally, we upload the CSV file data into a Postgres database.
+## Technologies Used
 
-## Programming Technique
+* Python 3.x
+* Pandas
+* Numpy
+* JSON
+* Excel (for `.xlsx` file reading)
+* CSV (for exporting cleaned data)
 
-We have been used Pair Programming, in this case, group programming where 5 of us work together at one workstation. On team member, called the "driver", writes and execute the code while the others, known as the "observers" or "navigators," reviews each line of code as it is written, give feedback or recommendations as well as advice on debugging. We have switched roles frequently among us in order to balance the coding time between all members.
 
-This collaborative approach has several benefits:
+## Data Extraction
 
-  1. Improved Code Quality: The constant review process helps catch mistakes early, leading to higher quality code.
-  2. Knowledge Sharing: It facilitates the sharing of knowledge between team members, helping less experienced programmers learn from their more experienced counterparts.
-  3. Enhanced Problem-Solving: More people working on the same problem can come up with more creative and effective solutions than one person working alone.
-  4. Increased Team Communication: It improves communication within the team, leading to better teamwork and collaboration.
-  5. Reduced Risk of Burnout: Switching roles regularly helps keep all programmers engaged and reduces the risk of burnout.
+We begin by extracting data from:
+
+  * `crowdfunding.xlsx`: Contains information about various crowdfunding campaigns such as the project goal, amount     pledged, backers, and category/subcategory.
+  * `contacts.xlsx`: Contains contact information of individuals associated with each campaign.
+
+The data is loaded into Pandas DataFrames for manipulation and analysis.
 
 ## Data Transformation 
 
-### Create Category and Subcategory DataFrames
+### Crownfunding Data
 
-#### Category DataFrame:
+1. Category & Subcategory Extraction:
 
-Extract and transform crowdfunding.xlsx data.
+  * The `category & sub-category` column is split into separate `category` and `subcategory` columns.
+  * Unique `category_id` and `subcategory_id` are created for each unique category and subcategory.
 
-Columns: category_id (sequential from cat1 to catn), category (category titles).
+2. Campaign DataFrame:
 
-Export as category.csv and save to GitHub.
-  
-#### Subcategory DataFrame:
+  * Renamed relevant columns (`blurb` to `description`, `launched_at` to `launch_date`, `deadline` to `end_date`).
+  * Converted `goal` and `pledged` columns from integers to floats.
+  * Formatted `launched_date` and `end_date` columns to datetime format.
+  * Merged campaign data with category and subcategory data based on the `category` and `subcategory` columns.
 
-Extract and transform crowdfunding.xlsx data.
+3. Contacts Data:
 
-Columns: subcategory_id (sequential from subcat1 to subcatn), subcategory (subcategory titles).
+  * The contact data from `contacts.xlsx` was converted from JSON format to a structured DataFrame.
+  * First and last names were extracted from the full name, and an additional `email` column was retained.
 
-Export as subcategory.csv and save to GitHub.
-  
-#### Create Campaign DataFrame
+### Exported Data
 
-Extract and transform crowdfunding.xlsx data.
+1. **Categories**: Exported the `category` DataFrame to `category.csv`.
+2. **Subcategories**: Exported the `subcategory` DataFrame to `subcategory.csv`.
+3. **Campaigns**: Exported the cleaned `campaign` DataFrame to `campaign.csv`.
+4. **Contacts**: Exported the cleaned `contacts` DataFrame to `contacts.csv`.
 
-Columns:
-    cf_id, contact_id, company_name, description (renamed from blurb), goal (float), pledged (float), outcome, backers_count, country, 
-    currency, launch_date (renamed from launched_at and converted to datetime format), 
-    end_date (renamed from deadline and converted to datetime format), category_id, subcategory_id.
-    
-Export as campaign.csv and save to GitHub.
-  
-#### Create Contacts DataFrame
+## Data Loading
 
-Import contacts.xlsx into a DataFrame.
+All transformed datasets were exported as CSV files for easy accessibility and further analysis.
 
-Convert each row to a dictionary.
+## Database Creating
 
-Extract dictionary values and add them to a new list.
+* Inspect the four CSV files.
+* Sketch an ERD using QuickDBD.
+* Create a table schema for each CSV file (specifying data types, primary keys, foreign keys, and other constraints).
+* Save the schema as crowdfunding_db_schema.sql and save to GitHub.
+* Create a new Postgres database named crowdfunding_db.
+* Use the schema to create the tables in the correct order.
+* Verify table creation with a SELECT statement for each table.
+* Import each CSV file into its corresponding SQL table.
+* Verify the data with a SELECT statement for each table.
 
-Create a new DataFrame from this list.
+## Repository Structure
 
-Split name column into first_name and last_name.
+* **Resources**: Contains all data files.
+* **ETL**: Contains main lines of code.
+* **README.md**: Overview of the repository.
+* **LICENSE**: License of the repository
 
-### Database Creation
+## How to Use
 
-#### Create the Crowdfunding Database
-Inspect the four CSV files.
+1. Clone the repository:
 
-Sketch an ERD using QuickDBD.
+```python
+git clone https://github.com/alvin-giang/Crowdfunding_ETL.git
+cd Crowdfunding_ETL
+```
 
-Create a table schema for each CSV file (specifying data types, primary keys, foreign keys, and other constraints).
+2. Install dependencies:
 
-Save the schema as crowdfunding_db_schema.sql and save to GitHub.
+You can install the necessary Python libraries by using the following command:
 
-Create a new Postgres database named crowdfunding_db.
+```python
+pip install pandas numpy
+```
 
-Use the schema to create the tables in the correct order.
+3. Run the Jupyter Notebook:
 
-Verify table creation with a SELECT statement for each table.
+Use Jupyter to open and run the notebook `Crowdfunding_ETL.ipynb` for step-by-step data extraction, transformation, and loading.
 
-Import each CSV file into its corresponding SQL table.
+4. Review CSV outputs:
 
-Verify the data with a SELECT statement for each table.
+Check the `Resources` folder for the cleaned and exported data files in CSV format.
+
+## License
+
+This project is licensed under the **MIT License**.
+
+
